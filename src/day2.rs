@@ -1,5 +1,8 @@
+extern crate regex;
+
 use std::io::Read;
 use std::str::FromStr;
+use regex::Regex;
 
 #[derive(Debug)]
 struct Line {
@@ -12,15 +15,12 @@ struct Line {
 fn main() {
     let mut input = String::new();
     std::io::stdin().read_to_string(&mut input).unwrap();
-    let input: Vec<_> = input.lines().filter_map(|line| {
-        let mut parts = line.split_whitespace();
-        let occurs = parts.next().unwrap();
-        let mut occurs_parts = occurs.split('-');
-        let min_occurs = usize::from_str(occurs_parts.next().unwrap()).unwrap();
-        let max_occurs = usize::from_str(occurs_parts.next().unwrap()).unwrap();
-        let letter = parts.next().unwrap().chars().nth(0).unwrap();
-        let password = parts.next().unwrap().to_string();
-        Some(Line { min_occurs, max_occurs, letter, password })
+    let regex = Regex::new(r"(?m)^(\d+)-(\d+) (.): (.*)$").unwrap();
+    let input: Vec<_> = regex.captures_iter(&input).map(|cap| Line {
+        min_occurs: usize::from_str(cap.get(1).unwrap().as_str()).unwrap(),
+        max_occurs: usize::from_str(cap.get(2).unwrap().as_str()).unwrap(),
+        letter: cap.get(3).unwrap().as_str().chars().next().unwrap(),
+        password: cap.get(4).unwrap().as_str().to_string(),
     }).collect();
 
     println!("{}", input.iter().filter(|line| {

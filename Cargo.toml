@@ -13,3 +13,4 @@ name = "day1"
 path = "src/day1.rs"
 
 [dependencies]
+regex = "1.4.2"
