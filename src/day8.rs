@@ -74,7 +74,7 @@ fn main() {
         fixed_program[i].opcode = match fixed_program[i].opcode {
             Opcode::Nop => Opcode::Jmp,
             Opcode::Jmp => Opcode::Nop,
-            other => other,
+            _ => { continue; },
         };
         let mut machine = Machine::new();
         machine.execute_program(&fixed_program);
