@@ -5,6 +5,10 @@ authors = ["Michael Kainer <stuff@pushrax.com>"]
 edition = "2018"
 
 [[bin]]
+name = "day23"
+path = "src/day23.rs"
+
+[[bin]]
 name = "day22"
 path = "src/day22.rs"
 
